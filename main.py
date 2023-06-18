@@ -8,7 +8,7 @@ gi = pygeoip.GeoIP('GeoLiteCity.dat')
 
 def retKML(dstip, srcip):
     dst = gi.record_by_name(dstip)
-    src = gi.record_by_name('x.xxx.xxx.xxx')
+    src = gi.record_by_name('71.167.241.201')
     try:
         dstlongitude = dst['longitude']
         dstlatitude = dst['latitude']
@@ -46,10 +46,9 @@ def plotIPs(pcap):
 
 
 def main():
-    f = open('wire.pcap' 'rb')
+    f = open('Network-tracking\wire.pcap','rb')
     pcap = dpkt.pcap.Reader(f)
-    kmlheader = '<?xml version='1.0" encoding = 'UTF-8"?> \n<kml
-xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n'\
+    kmlheader = '<?xml version="1.0" encoding="UTF-8"?> \n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n'\
     '<Style id="transBluePoly">' \
                 '<LineStyle>' \
                 '<width>1.5</width>' \
@@ -59,3 +58,6 @@ xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n'\
     kmlfooter = '</Document>\n</kml>\n'
     kmldoc=kmlheader+plotIPs(pcap)+kmlfooter
     print(kmldoc)
+
+if __name__ == '__main__':
+    main()
