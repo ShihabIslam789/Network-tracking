@@ -6,9 +6,18 @@ gi = pygeoip.GeoIP('GeoLiteCity.dat')
 
 
 def plotIPs(pcap):
-    kmLPts = ''
+    kmlPts = ''
     for (ts, buf) in pcap:
-
+        try:
+            eth = dpkt.ethernet.Ethernet(buf)
+            ip = eth.data
+            src = socket.inet_ntoa(ip.src)
+            dst = socket.inet_ntoa(ip.dst)
+            KML = retKML(dst, src)
+            kmlPts = kmlPts + KML
+        except:
+            pass
+    return kmlPts
 
 
 def main():
